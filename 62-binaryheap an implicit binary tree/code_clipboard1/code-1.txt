@@ -1,0 +1,11 @@
+class BinaryHeap(BaseSet):
+    def __init__(self, iterable=[], a=None):
+        if a: 
+            self._make_heap(a)
+        else:
+            self._initialize()
+            self.add_all(iterable)
+
+    def _initialize(self):
+        self.a = new_array(1)
+        self.n = 0

@@ -1,0 +1,7 @@
+class ChainedHashTable(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+     def _hash(self, x):
+        return ((self.z * hash(x)) % (1<<w)) >> (w-self.d)

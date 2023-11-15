@@ -1,0 +1,7 @@
+class RootishArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+   
+    def _i2b(self, i):
+        return int(ceil((-3.0 + sqrt(9 + 8*i)) / 2.0))

@@ -1,0 +1,10 @@
+def dfs2(g, r):
+    c = new_array(g.n)
+    s = SLList()
+    s.push(r)
+    while s.size() > 0:
+        i = s.pop()
+        if c[i] == white:
+            c[i] = grey
+            for j in g.out_edges(i):
+                s.push(j)

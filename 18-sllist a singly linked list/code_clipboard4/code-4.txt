@@ -1,0 +1,26 @@
+class SLList(BaseList):
+    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.n = 0
+        self.head = None
+        self.tail = None
+
+    def remove(self, i):
+        if i < 0 or i > self.n-1: raise IndexError()
+        if i == 0: return self.pop()
+        u = self.head
+        for _ in range(i-1):
+            u = u.next
+        w = u.next
+        u.next = u.next.next
+        self.n -= 1
+        return w.x

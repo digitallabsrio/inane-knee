@@ -1,0 +1,15 @@
+class YFastTrie(BaseSet):
+    def __init__(self):
+        super(YFastTrie, self).__init__()
+        self._initialize()
+ 
+    def remove(self, x):
+        ix = int(x)
+        u = self.xft.find_node(ix)
+        ret = u.x[1].remove(x)
+        if ret: self.n -= 1
+        if u.x[0] == ix and ix != (1<<w) - 1:
+            t2 = u.next.x[1]
+            t2.absorb(u.x[1])
+            self.xft.remove(u.x)
+        return ret

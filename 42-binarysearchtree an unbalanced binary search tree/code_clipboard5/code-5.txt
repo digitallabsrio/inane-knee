@@ -1,0 +1,31 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    """Base classs for all our binary search trees"""
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x
+      
+    def __init__(self, iterable=[], nil=None):
+        super(BinarySearchTree, self).__init__()
+        self._initialize()
+        self.nil = nil
+        self.add_all(iterable)
+            
+    def splice(self, u):
+        if u.left != self.nil:
+            s = u.left
+        else:
+            s = u.right
+        if u == self.r:
+            self.r = s
+            p = self.nil
+        else:
+            p = u.parent
+            if p.left == u:
+                p.left = s
+            else:
+                p.right = s 
+        if s != self.nil: 
+            s.parent = p
+        self.n -= 1

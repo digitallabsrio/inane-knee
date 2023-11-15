@@ -1,0 +1,21 @@
+class MeldableHeap(BinaryTree, BaseSet):
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(MeldableHeap.Node, self).__init__()
+            self.x = x
+            
+    def __init__(self, iterable=[]):
+        super(MeldableHeap, self).__init__()
+        self.n = 0
+        
+    def merge(self, h1, h2):
+        if h1 == self.nil: return h2
+        if h2 == self.nil: return h1
+        if h2.x < h1.x: (h1, h2) = (h2, h1)
+        if random_bit():
+            h1.left = self.merge(h1.left, h2)
+            h1.left.parent = h1
+        else:
+            h1.right = self.merge(h1.right, h2)
+            h1.right.parent = h1
+        return h1

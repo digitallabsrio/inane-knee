@@ -1,0 +1,14 @@
+class ChainedHashTable(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def remove(self, x):
+        ell = self.t[self._hash(x)]
+        for y in ell:
+            if y == x:
+                ell.remove_value(y)
+                self.n -= 1
+                if 3*self.n < len(self.t): self._resize() 
+                return y
+        return None 

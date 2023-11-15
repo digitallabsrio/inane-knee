@@ -1,0 +1,10 @@
+class AdjacencyLists(object):
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+        
+    def in_edges(self, i):
+        out = ArrayStack()
+        for j in range(self.n):
+            if self.has_edge(j, i): out.append(j)
+        return out

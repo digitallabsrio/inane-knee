@@ -1,0 +1,13 @@
+class LinearHashTable(BaseSet):
+    
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.initialize()
+        self.add_all(iterable)
+        
+def _hash(self, x):
+        h = self.hash_code(x)
+        return  (self.tab[0][h&0xff] \
+                 ^ self.tab[1][(h>>8)&0xff] \
+                 ^ self.tab[2][(h>>16)&0xff] \
+                 ^ self.tab[3][(h>>24)&0xff]) >> (w-self.d)

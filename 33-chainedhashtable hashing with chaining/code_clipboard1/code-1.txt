@@ -1,0 +1,11 @@
+class ChainedHashTable(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def add(self, x):
+        if self.find(x) is not None: return False
+        if self.n+1 > len(self.t): self._resize()
+        self.t[self._hash(x)].append(x)
+        self.n += 1
+        return True

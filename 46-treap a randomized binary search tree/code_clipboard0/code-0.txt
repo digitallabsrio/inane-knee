@@ -1,0 +1,6 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x

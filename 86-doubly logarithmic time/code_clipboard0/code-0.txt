@@ -1,0 +1,33 @@
+class XFastTrie(BinaryTrie):
+    class Node(BinaryTrie.Node):
+        def __init__(self):
+            super(XFastTrie.Node, self).__init__()
+            self.prefix = 0
+            
+    def __init__(self):
+        super(XFastTrie, self).__init__()
+        self.nil = self._new_node()
+        self.t = new_array(w+1)
+        for i in range(w+1):
+            self.t[i] = LinearHashTable()
+        self.t[0].add(self.r)
+    
+    def find(self, x):
+        ix = int(x)
+        l, h = 0, w+1
+        u = self.r
+        q = self._new_node()
+        while h-l > 1:
+            i = (l+h)/2
+            q.prefix = ix >> w-i
+            v = self.t[i].find(q)
+            if v is None:
+                h = i
+            else:
+                u = v
+                l = i
+        if l == w: return u.x
+        c = ix >> (w-l-1) & 1
+        pred = [u.jump.prev, u.jump][c]
+        if pred.next is None: return None
+        return pred.next.x

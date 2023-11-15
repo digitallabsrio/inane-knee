@@ -1,0 +1,136 @@
+from base import BaseList
+
+class SLList(BaseList):    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+    # Initialize function
+    def _initialize(self):
+        self.n = 0
+        self.head = None
+        self.tail = None
+    # Creating new node
+    def new_node(self, x):
+        return SLList.Node(x)
+    # Function to add value
+    def _add(self,x):
+        u = self.new_node(x)
+        if self.n == 0:
+            self.head = u
+        else:
+            self.tail.next = u
+        self.tail = u
+        self.n += 1
+        return True
+    # Function to push value in linkedlist
+    def push(self,x):
+        u = self.new_node(x)
+        u.next = self.head
+        self.head = u
+        if self.n == 0:
+            self.tail = u
+        self.n += 1
+        return x
+    # Function to append value
+    def append(self, x):
+        u = self.new_node(x)
+        if self.n == 0:
+            self.head = u
+        else:
+            self.tail.next = u
+        self.tail = u
+        self.n += 1
+        return True
+    # Function to get node
+    def get_node(self, i):
+        u = self.head
+        for _ in range(i):
+            u = u.next
+        return u
+    # Function to get value of a node
+    def get(self, i):
+        if i < 0 or i > self.n-1: raise IndexError()
+        return self.get_node(i).x
+    # Function to set value to a node
+    def set(self, i, x):
+        if i < 0 or i > self.n-1: raise IndexError()
+        u = self.get_node(i)
+        y, u.x = u.x, x
+        return y
+    # Function to add value using push()
+    def add(self, i, x):
+        if i < 0 or i > self.n: raise IndexError()
+        if i == 0: self.push(x); return True
+        u = self.head
+        for _ in range(i-1):
+            u = u.next
+        w = self.new_node(x)
+        w.next = u.next
+        u.next = w
+        self.n += 1
+        return True
+    # Function to remove values
+    def remove(self, i):
+        if i < 0 or i > self.n-1: raise IndexError()
+        if i == 0: return self.pop()
+        u = self.head
+        for _ in range(i-1):
+            u = u.next
+        w = u.next
+        u.next = u.next.next
+        self.n -= 1
+        return w.x
+    # Function to pop value
+    def pop(self):
+        if self.n == 0: return None
+        x = self.head.x
+        self.head = self.head.next
+        self.n -= 1
+        if self.n == 0:
+            self.tail = None
+        return x
+    # Function to remove using pop()
+    def _remove(self):
+        return self.pop()
+    # String conversion
+    def __str__(self):
+        s = "["
+        u = self.head
+        while u is not None:
+            s += "%r" % u.x
+            u = u.next
+            if u is not None:
+                s += ","
+        return s + "]"
+    # Function to get length using size()
+    def __len__(self):
+        return self.size()
+
+if __name__ == "__main__":
+    # Creating object
+    q = SLList()
+    # Adding values using append()
+    for i in range(100):
+        q.append(i)
+    print("After append: ", q)
+    # Removing values using remove()
+    for i in range(50):
+        q.remove(i)
+    print("After remove: ",q)
+    # Adding more values using append()
+    for i in range(100, 200):
+        q.append(i)
+    print("After append: ",q)
+    # Removing more values using remove()
+    for i in range(50):
+        q.remove(i)
+    print("After remove: ",q)
+    # Removing values using pop()
+    while len(q) != 0:
+        q.pop()
+    print("After pop: ",q)

@@ -1,0 +1,42 @@
+class BinaryHeap:
+    def __init__(self, a):
+        self.a = a
+        self.n = len(a)
+    # Function to swap values
+    def swap(self, i, j):
+        self.a[i], self.a[j] = self.a[j], self.a[i]
+    # Function to trickle down
+    def trickle_down(self, i):
+        while True:
+            left = 2 * i + 1
+            right = 2 * i + 2
+            largest = i
+
+            if left < self.n and self.a[left] > self.a[largest]:
+                largest = left
+            if right < self.n and self.a[right] > self.a[largest]:
+                largest = right
+
+            if largest == i:
+                break
+
+            self.swap(i, largest)
+            i = largest
+# Heap Sort function
+def heap_sort(a):
+    h = BinaryHeap(a)
+    m = h.n // 2
+    for i in range(m - 1, -1, -1):
+        h.trickle_down(i)
+    while h.n > 1:
+        h.n -= 1
+        h.swap(h.n, 0)
+        h.trickle_down(0)
+
+if __name__ == "__main__":
+    # Declare array
+    number = [5, 2, 7, 1, 9, 3]
+    print("Original Array:", number)
+    # Function call
+    heap_sort(number)
+    print("Sorted Array:", number)

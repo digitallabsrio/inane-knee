@@ -1,0 +1,17 @@
+class MeldableHeap(BinaryTree, BaseSet):
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(MeldableHeap.Node, self).__init__()
+            self.x = x
+            
+    def __init__(self, iterable=[]):
+        super(MeldableHeap, self).__init__()
+        self.n = 0
+    
+    def remove(self):
+        if self.n == 0: raise IndexError('remove from empty heap')
+        x = self.r.x
+        self.r = self.merge(self.r.left, self.r.right)
+        if self.r != self.nil: self.r.parent = self.nil
+        self.n -= 1
+        return x

@@ -1,0 +1,26 @@
+class BinaryTree(object):
+    class Node(object):
+        def __init__(self):
+            self.left = self.right = self.parent = None
+
+    def __init__(self):
+        super(BinaryTree, self).__init__()
+        self.nil = None
+        self.r = None
+        self.initialize()
+        
+    def traverse2(self):
+        u = self.r
+        prv = self.nil
+        while u != self.nil:
+            if prv == u.parent:
+                if u.left != self.nil: nxt = u.left
+                elif u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            elif prv == u.left:
+                if u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            else:
+                nxt = u.parent
+            prv = u
+            u = nxt

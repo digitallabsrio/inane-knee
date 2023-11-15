@@ -1,0 +1,9 @@
+class ArrayDeque(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+
+    def _initialize(self):
+        self.a = new_array(1)
+        self.j = 0
+        self.n = 0

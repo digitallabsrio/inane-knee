@@ -1,0 +1,17 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+            
+    def __init__(self, b):
+        self._initialize(b)
+        
+    def check_underflow(self, u, i):
+        if u.children[i] < 0: return
+        if i == 0:
+            self.check_underflow_zero(u, i)
+        else:
+            self.check_underflow_nonzero(u, i)

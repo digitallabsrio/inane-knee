@@ -1,0 +1,18 @@
+class ArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.a = new_array(1)
+        self.n = 0
+
+    def get(self, i):
+        if i < 0 or i >= self.n: raise IndexError()
+        return self.a[i]
+
+    def set(self, i, x):
+        if i < 0 or i >= self.n: raise IndexError()
+        y = self.a[i]
+        self.a[i] = x
+        return y

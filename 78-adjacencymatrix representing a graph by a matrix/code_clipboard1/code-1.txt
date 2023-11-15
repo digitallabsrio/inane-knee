@@ -1,0 +1,13 @@
+class AdjacencyMatrix(object):
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+                
+    def add_edge(self, i, j):
+        self.a[i][j] = True
+        
+    def remove_edge(self, i, j):
+        self.a[i][j] = False
+        
+    def has_edge(self, i, j):
+        return self.a[i][j]

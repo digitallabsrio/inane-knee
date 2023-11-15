@@ -1,0 +1,10 @@
+class SkiplistList(BaseList):
+    class Node(object):
+        """A node in a skip list"""
+        def __init__(self, x, h):
+            self.x = x
+            self.next = new_array(h+1)
+            self.length = numpy.ones(h+1, dtype=int)
+
+        def height(self):
+            return len(self.next) - 1

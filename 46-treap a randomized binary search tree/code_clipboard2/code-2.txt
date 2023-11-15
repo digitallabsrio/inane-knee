@@ -1,0 +1,29 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    """Base classs for all our binary search trees"""
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x
+        
+    def __init__(self, iterable=[], nil=None):
+        super(BinarySearchTree, self).__init__()
+        self._initialize()
+        self.nil = nil
+        self.add_all(iterable)
+    
+    def add(x):
+        u = Node(x)
+        if add_node(u):
+            bubble_up(u)
+            return True
+        return False
+
+    def bubble_up(u):
+        while u and u.parent and u.parent.p > u.p:
+            if u.parent.right == u:
+                rotate_left(u.parent)
+            else:
+                rotate_right(u.parent)
+            if u.parent is None:
+                r = u

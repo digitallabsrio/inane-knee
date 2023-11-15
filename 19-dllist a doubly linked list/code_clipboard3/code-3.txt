@@ -1,0 +1,22 @@
+class DLList(BaseList):
+    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+            self.prev = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def get(self, i):
+        if i < 0 or i >= self.n: raise IndexError()
+        return self.get_node(i).x
+
+    def set(self, i, x): #@ReservedAssignment
+        if i < 0 or i >= self.n: raise IndexError()
+        u = self.get_node(i)
+        y = u.x
+        u.x = x
+        return y

@@ -1,0 +1,28 @@
+class SEList(BaseList):
+    class BDeque(ArrayDeque):
+        """A bounded-size deque"""
+        def __init__(self, b):
+            super(SEList.BDeque, self).__init__()
+            self.a = new_array(b+1)
+        
+        def _resize(self):
+            pass
+        
+    class Node(object):
+        def __init__(self, b):
+            self.d = SEList.BDeque(b)
+            self.prev = None
+            self.next = None
+            
+    def __init__(self, b):
+        super(SEList, self).__init__()
+        self.b = b
+        self._initialize()
+
+    def _gather(self, u):
+        w = u
+        for j in range(self.b-1):
+            while w.d.size() < self.b:
+                w.d.add_last(w.next.d.remove_first())
+            w = w.next
+        self._remove_node(w)

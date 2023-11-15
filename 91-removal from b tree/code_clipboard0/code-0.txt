@@ -1,0 +1,35 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+            
+    def __init__(self, b):
+        self._initialize(b)
+        
+    def remove_recursive(self, x, ui):
+        if ui < 0: return False  # didn't find it
+        u = self.bs.read_block(ui)
+        i = find_it(u.keys, x)
+        if i < 0:  # found it
+            i = -(i+1)
+            if u.is_leaf():
+                u.remove(i)
+            else:
+                u.keys[i] = self.remove_smallest(u.children[i+1])
+                self.check_underflow(u, i+1)
+            return True
+        elif self.remove_recursive(x, u.children[i]):
+            self.check_underflow(u, i)
+            return True
+        return False
+        
+    def remove_smallest(self, ui):
+        u = self.bs.read_block(ui)
+        if u.is_leaf():
+            return u.remove(0)
+        y = self.remove_smallest(u.children[0])
+        self.check_underflow(u, 0)
+        return y

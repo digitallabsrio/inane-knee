@@ -1,0 +1,122 @@
+from arrayqueue import ArrayQueue
+
+class BinaryTree(object):
+    class Node(object):
+        def __init__(self):
+            self.left = self.right = self.parent = None
+
+    def __init__(self):
+        super(BinaryTree, self).__init__()
+        self.nil = None
+        self.r = None
+        self.initialize()
+    # Initialize function    
+    def initialize(self):
+        self.r = None
+    # Function to find depth    
+    def depth(self, u):
+        d = 0
+        while (u != self.r):
+            u = u.parent
+            d += 1
+        return d
+    # Function to find size
+    def size(self):
+        return self._size(self.r)
+    # Helper function for size
+    def _size(self, u):
+        if u == self.nil: return 0
+        return 1 + self._size(u.left) + self._size(u.right)
+    # Function to find size of the tree
+    def size2(self):
+        u = self.r
+        prv = self.nil
+        n = 0
+        while u != self.nil:
+            if prv == u.parent:
+                n += 1
+                if u.left != self.nil: nxt = u.left
+                elif u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            elif prv == u.left:
+                if u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            else:
+                nxt = u.parent
+            prv = u
+            u = nxt
+        return n 
+    # Function to find height
+    def height(self):
+        return self._height(self.r)
+    # Helper function for height
+    def _height(self, u):
+        if u == self.nil: return 0
+        return 1 + max(self._height(u.left), self._height(u.right))
+    # Function to traverse left and right side of tree
+    def traverse(self, u):
+        if u == self.nil: return
+        self.traverse(u.left)
+        self.traverse(u.right)
+    # Function to traverse the tree
+    def traverse2(self):
+        u = self.r
+        prv = self.nil
+        while u != self.nil:
+            if prv == u.parent:
+                if u.left != self.nil: nxt = u.left
+                elif u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            elif prv == u.left:
+                if u.right != self.nil: nxt = u.right
+                else: nxt = u.parent
+            else:
+                nxt = u.parent
+            prv = u
+            u = nxt
+    # Function for bf traverse
+    def bf_traverse(self):
+        q = ArrayQueue()
+        if self.r != self.nil: q.add(self.r)
+        while q.size() > 0:
+            u = q.remove()
+            if u.left != self.nil: q.add(u.left)
+            if u.right != self.nil: q.add(u.right)
+    # Function to find first node 
+    def first_node(self):
+        w = self.r
+        if w == self.nil: return self.nil
+        while w.left != self.nil:
+            w = w.left
+        return w
+    # Function to find next node
+    def next_node(self, w):
+        if w.right != self.nil:
+            w = w.right
+            while w.left != self.nil:
+                w = w.left
+        else:
+            while w.parent != self.nil and w.parent.left != w:
+                w = w.parent
+            w = w.parent
+        return w
+
+if __name__ == "__main__":
+    # Instantiate a BinaryTree object
+    bt = BinaryTree()
+    # Create nodes and set up the tree structure
+    nilnode = bt.Node()
+    node1 = bt.Node()
+    node2 = bt.Node()
+    node3 = bt.Node()
+    node1.parent = nilnode
+    node1.left = node2
+    node1.right = node3
+    node2.parent = node3.parent = node1
+    # Initialize the BinaryTree object
+    bt.r = node1
+    # Print the results of various BinaryTree methods
+    print("Depth:", bt.depth(node2))
+    print("Size:", bt.size())
+    print("Size2:", bt.size2())
+    print("Height:", bt.height())

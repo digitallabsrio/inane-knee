@@ -1,0 +1,38 @@
+class SEList(BaseList):
+    class BDeque(ArrayDeque):
+        """A bounded-size deque"""
+        def __init__(self, b):
+            super(SEList.BDeque, self).__init__()
+            self.a = new_array(b+1)
+        
+        def _resize(self):
+            pass
+        
+    class Node(object):
+        def __init__(self, b):
+            self.d = SEList.BDeque(b)
+            self.prev = None
+            self.next = None
+            
+    def __init__(self, b):
+        super(SEList, self).__init__()
+        self.b = b
+        self._initialize()
+
+    def remove(self, i):
+        if i < 0 or i > self.n-1: raise IndexError()
+        u, j = self._get_location(i)
+        y = u.d.get(j)
+        w = u
+        r = 0
+        while r < self.b and w is not self.dummy and w.d.size() == self.b-1:
+            w = w.next
+            r += 1
+        if r == self.b: # b blocks, each with b-1 elements
+            self._gather(u)
+        u.d.remove(j)
+        while u.d.size() < self.b-1 and u.next is not self.dummy:
+            u.d.add_last(u.next.d.remove_first())
+            u = u.next
+        if u.d.size() == 0: self._remove_node(u)
+        self.n -= 1

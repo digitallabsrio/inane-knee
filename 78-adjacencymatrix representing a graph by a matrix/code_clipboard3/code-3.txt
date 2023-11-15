@@ -1,0 +1,88 @@
+import time
+from utils import new_boolean_matrix
+# Main class
+class AdjacencyMatrix(object):
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+    # Initialize function         
+    def _initialize(self):
+        self.a = new_boolean_matrix(self.n, self.n)    
+    # Function to add edge
+    def add_edge(self, i, j):
+        self.a[i][j] = True
+    # Function to remove edge 
+    def remove_edge(self, i, j):
+        self.a[i][j] = False
+    # Fucntion to return edge 
+    def has_edge(self, i, j):
+        return self.a[i][j]
+    # Function to return out edge
+    def out_edges(self, i):
+        out = list()
+        for j in range(self.n):
+            if self.a[i][j]: out.append(j)
+        return out
+    # Function to return in edge
+    def in_edges(self, i):
+        out = list()
+        for j in range(self.n):
+            if self.a[j][i]: out.append(j)
+        return out
+        
+    def in_degree(self, i):
+        deg = 0
+        for j in range(self.n):
+            if self.a[j][i]:
+                deg += 1
+        return deg
+        
+    def out_degree(self, i):
+        deg = 0
+        for j in range(self.n):
+            if self.a[i][j]:
+                deg += 1
+        return deg
+# Test function
+def run_tests(adj_matrix, adj_list, n):
+    print(f"Running tests on graphs of size {n}...")
+
+    start_time = time.monotonic()
+
+    # Test adding edges
+    for i in range(n):
+        for j in range(n):
+            adj_matrix.add_edge(i, j)
+            adj_list.add_edge(i, j)
+
+    # Test removing edges
+    for i in range(n):
+        for j in range(n):
+            adj_matrix.remove_edge(i, j)
+            adj_list.remove_edge(i, j)
+
+    # Test checking for edges
+    for i in range(n):
+        for j in range(n):
+            assert adj_matrix.has_edge(i, j) == False
+            assert adj_list.has_edge(i, j) == False
+
+    # Test in-degree and out-degree
+    for i in range(n):
+        assert adj_matrix.in_degree(i) == 0
+        assert adj_matrix.out_degree(i) == 0
+        assert adj_list.in_degree(i) == 0
+        assert adj_list.out_degree(i) == 0
+
+    end_time = time.monotonic()
+    elapsed_time = end_time - start_time
+    print(f"Tests completed in {elapsed_time:.6f} seconds")
+
+if __name__ == "__main__":
+    # Loop thorugh list setting different sizes
+    for n in [10, 20, 40, 80, 160, 320]:
+        am = AdjacencyMatrix(n)
+        al = AdjacencyLists(n)
+        print(f"Running tests on graphs of size {n}...")
+        run_tests(am, al, n)
+        print("done")

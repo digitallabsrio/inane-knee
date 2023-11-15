@@ -1,0 +1,8 @@
+class ScapegoatTree(BinarySearchTree):
+    def __init__(self):
+        super(ScapegoatTree, self).__init__()
+        self._initialize()
+        
+    def _initialize(self):
+        self.n = 0
+        self.q = 0

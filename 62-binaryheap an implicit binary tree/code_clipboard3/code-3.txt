@@ -1,0 +1,34 @@
+class BinaryHeap(BaseSet):
+    def __init__(self, iterable=[], a=None):
+        if a: 
+            self._make_heap(a)
+        else:
+            self._initialize()
+            self.add_all(iterable)
+
+    def remove(self):
+        x = self.a[0]
+        self.a[0] = self.a[self.n-1]
+        self.n -= 1
+        self.trickle_down(0)
+        if 3*self.n < len(self.a):
+            self.resize()
+        return x
+
+    def trickle_down(self, i):
+        while i >= 0:
+            j = -1
+            r = right(i)
+            if r < self.n and self.a[r] < self.a[i]:
+                l = left(i)
+                if self.a[l] < self.a[r]:
+                    j = l
+                else:
+                    j = r
+            else:
+                l = left(i)
+                if l < self.n and self.a[l] < self.a[i]:
+                    j = l
+            if j >= 0:
+                self.a[j], self.a[i] =     self.a[i], self.a[j]
+            i = j

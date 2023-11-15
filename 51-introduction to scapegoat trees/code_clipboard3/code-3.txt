@@ -1,0 +1,16 @@
+class ScapegoatTree(BinarySearchTree):
+    def __init__(self):
+        super(ScapegoatTree, self).__init__()
+        self._initialize()
+        
+    def _initialize(self):
+        self.n = 0
+        self.q = 0
+        
+    def remove(self, x):
+        if super(ScapegoatTree, self).remove(x):
+            if 2*self.n < self.q:
+                self.rebuild(self.r)
+                self.q = self.n
+            return True
+        return False

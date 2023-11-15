@@ -1,0 +1,22 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+    
+    def __init__(self, b):
+        self._initialize(b)
+    
+    def find_it(a, x):
+        lo, hi = 0, len(a)
+        while hi != lo:
+            m = (hi+lo)//2
+            if a[m] is None or x < a[m]:
+                hi = m # look in first half
+            elif x > a[m]:
+                lo = m+1 # look in second half
+            else:
+                return -m-1 # found it
+        return lo

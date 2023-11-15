@@ -1,0 +1,28 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+    
+    def __init__(self, b):
+        self._initialize(b)
+    
+    def add(self, x):
+        w = None
+        try:
+            w = self.add_recursive(x, self.ri)
+        except DuplicateValueError:
+            return False
+        if w is not None:
+            newroot = BTree.Node(self)
+            x = w.remove(0)
+            self.bs.write_block(w.id, w)
+            newroot.children[0] = self.ri
+            newroot.keys[0] = x
+            newroot.children[1] = w.id
+            self.ri = newroot.id
+            self.bs.write_block(self.ri, newroot)
+        self.n += 1
+        return True

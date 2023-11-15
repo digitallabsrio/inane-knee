@@ -1,0 +1,20 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+            
+    def __init__(self, b):
+        self._initialize(b)
+        
+    def check_underflow_zero(self, u, i):
+        w = self.bs.read_block(u.children[i])
+        if w.size() < self.B-1: # underflow at w
+            v = self.bs.read_block(u.children[i+1]) # v right of w
+            if v.size() > self.B:
+                self.shift_rl(u, i, v, w)
+            else:
+                self.merge(u, i, w, v)
+                u.children[i] = w.id

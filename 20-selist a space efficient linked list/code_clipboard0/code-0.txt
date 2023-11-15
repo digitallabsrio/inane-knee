@@ -1,0 +1,8 @@
+class SEList(BaseList):
+    class BDeque(ArrayDeque):
+        def __init__(self, b):
+            super(SEList.BDeque, self).__init__()
+            self.a = new_array(b+1)
+        
+        def _resize(self):
+            pass

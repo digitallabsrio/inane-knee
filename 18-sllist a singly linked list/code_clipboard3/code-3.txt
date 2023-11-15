@@ -1,0 +1,24 @@
+class SLList(BaseList):
+    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.n = 0
+        self.head = None
+        self.tail = None
+    
+    def pop(self):
+        if self.n == 0: return None
+        x = self.head.x
+        self.head = self.head.next
+        self.n -= 1
+        if self.n == 0:
+            self.tail = None
+        return x

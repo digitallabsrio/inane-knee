@@ -1,0 +1,10 @@
+class ChainedHashTable(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def find(self, x):
+        for y in self.t[self._hash(x)]:
+            if y == x:
+                return y
+        return None

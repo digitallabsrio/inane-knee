@@ -1,0 +1,22 @@
+class BinaryTrie(BaseSet):
+    class Node(object):
+        def __init__(self):
+            self.child  = new_array(2)
+            self.jump = None
+            self.parent = None
+            self.x = None
+
+    def find(self, x):
+        ix = int(x)
+        u = self.r
+        i = 0
+        while i < w:
+            c = (ix >> w-i-1) & 1
+            if u.child[c] is None: break
+            u = u.child[c]
+            i += 1
+        if i == w: return u.x  # found it
+        u = [u.jump, u.jump.next][c]
+        if u is self.dummy: return None
+        return u.x
+        

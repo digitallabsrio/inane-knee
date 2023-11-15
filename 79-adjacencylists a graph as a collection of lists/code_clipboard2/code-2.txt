@@ -1,0 +1,10 @@
+class AdjacencyLists(object):
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+
+    def remove_edge(self, i, j):
+        for k in range(length(self.adj[i])):
+            if self.adj[i].get(k) == j:
+                self.adj[i].remove(k)
+                return

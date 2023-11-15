@@ -1,0 +1,13 @@
+class LinearHashTable(BaseSet):
+    
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.initialize()
+        self.add_all(iterable)
+        
+    def find(self, x):
+        i = self._hash(x)
+        while self.t[i] is not None:
+            if self.t[i] != self.dl and x == self.t[i]: 
+                return self.t[i]
+            i = (i + 1) % len(self.t)

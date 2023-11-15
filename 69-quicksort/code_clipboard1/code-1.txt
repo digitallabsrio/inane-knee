@@ -1,0 +1,35 @@
+import random
+# Main class
+class QuickSort:
+  # Initialize function
+  def __init__(self):
+    self.rand = random.Random()
+  # Quick-sort function
+  def quick_sort(self, a):
+    self._quick_sort(a, 0, len(a))
+  # Quick sort helper function
+  def _quick_sort(self, a, i, n):
+    if n <= 1:
+      return
+    x = a[i + self.rand.randint(0, n - 1)]
+    p, j, q = i - 1, i, i + n
+    while j < q:
+      if a[j] < x:
+        p += 1
+        a[j], a[p] = a[p], a[j]
+        j += 1
+      elif a[j] > x:
+        q -= 1
+        a[j], a[q] = a[q], a[j]
+      else:
+        j += 1
+    self._quick_sort(a, i, p - i + 1)
+    self._quick_sort(a, q, n - (q - i))
+
+if __name__ == "__main__":
+  arr = [5, 2, 8, 1, 9]
+  print("Original Array:", arr)
+  # Creating object
+  sorter = QuickSort()
+  sorter.quick_sort(arr)
+  print("Sorted Array:", arr)

@@ -1,0 +1,35 @@
+class SEList(BaseList):
+    class BDeque(ArrayDeque):
+        def __init__(self, b):
+            super(SEList.BDeque, self).__init__()
+            self.a = new_array(b+1)
+        
+        def _resize(self):
+            pass
+        
+    class Node(object):
+        def __init__(self, b):
+            self.d = SEList.BDeque(b)
+            self.prev = None
+            self.next = None
+            
+    def __init__(self, b):
+        super(SEList, self).__init__()
+        self.b = b
+        self._initialize()
+        
+    def _get_location(self, i):
+        if i < self.n//2:
+            u = self.dummy.next
+            while i >= u.d.size():
+                i -= u.d.size()
+                u = u.next
+            return u,i
+        else:
+            u = self.dummy
+            idx = self.n
+            while i < idx:
+                u = u.prev
+                idx -= u.d.size()
+        return u, i-idx
+    

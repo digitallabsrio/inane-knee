@@ -1,0 +1,13 @@
+def hash_code(x):
+    p = 2 ** 32 - 5
+    z = 0x64b6055a
+    z2 = 0x5067d19d
+    s = 0
+    zi = 1
+    for i in range(len(x)):
+        # reduce to 31 bits
+        xi = ((hash(x[i]) * z2) % 2**32) >> 1
+        s = (s + zi * xi) % p
+        zi = (zi * z) % p
+    s = (s + zi * (p - 1)) % p
+    return s % 2**32

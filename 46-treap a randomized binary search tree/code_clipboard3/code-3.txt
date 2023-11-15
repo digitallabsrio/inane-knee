@@ -1,0 +1,34 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    """Base classs for all our binary search trees"""
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x
+        
+    def __init__(self, iterable=[], nil=None):
+        super(BinarySearchTree, self).__init__()
+        self._initialize()
+        self.nil = nil
+        self.add_all(iterable)
+
+    def remove(x):
+        u = find_last(x)
+        if u and u.x == x:
+            trickle_down(u)
+            splice(u)
+            return True
+        return False
+
+    def trickle_down(u):
+        while u.left or u.right:
+            if u.left is None:
+                rotate_left(u)
+            elif u.right is None:
+                rotate_right(u)
+            elif u.left.p < u.right.p:
+                rotate_right(u)
+            else:
+                rotate_left(u)
+            if r == u:
+                r = u.parent

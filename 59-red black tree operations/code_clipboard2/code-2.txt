@@ -1,0 +1,31 @@
+class RedBlackTree(BinarySearchTree):
+    class Node(BinarySearchTree.Node):
+        def __init__(self, x):
+            super(RedBlackTree.Node, self).__init__(x)
+            self.colour = black
+  
+    def __init__(self, iterable=[]):
+        self.nil = RedBlackTree.Node(None)
+        self.nil.right = self.nil.left = self.nil.parent = self.nil
+        super(RedBlackTree, self).__init__([], self.nil)
+        self.r = self.nil
+        self.add_all(iterable)
+    
+    def remove(self, x):
+        u = self._find_last(x)
+        if u == self.nil or u.x != x:
+            return False
+        w = u.right
+        if w == self.nil:
+            w = u
+            u = w.left
+        else:
+            while w.left != self.nil:
+                w = w.left
+            u.x = w.x
+            u = w.right
+        self.splice(w)
+        u.colour += w.colour
+        u.parent = w.parent
+        self.remove_fixup(u)
+        return True

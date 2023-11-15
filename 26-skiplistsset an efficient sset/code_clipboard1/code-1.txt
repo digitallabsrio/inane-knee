@@ -1,0 +1,18 @@
+class SkiplistSSet(BaseSet):
+    class Node(object):
+        """A node in a skip list"""
+        def __init__(self, x, h):
+            self.x = x
+            self.next = new_array(h+1)
+        
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+
+    def pick_height(self):
+        z = random.getrandbits(32)
+        k = 0
+        while z & 1:
+            k += 1
+            z = z // 2
+        return k

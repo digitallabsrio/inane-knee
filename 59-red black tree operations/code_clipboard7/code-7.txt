@@ -1,0 +1,169 @@
+from binarysearchtree import BinarySearchTree
+# Setting red black values
+red = 0
+black = 1
+# Main class
+class RedBlackTree(BinarySearchTree):
+    class Node(BinarySearchTree.Node):
+        def __init__(self, x):
+            super(RedBlackTree.Node, self).__init__(x)
+            self.colour = black
+    # Function to create new node
+    def _new_node(self, x):
+        u = RedBlackTree.Node(x)
+        u.left = u.right = u.parent = self.nil
+        return u
+    # Initialize function  
+    def __init__(self, iterable=[]):
+        self.nil = RedBlackTree.Node(None)
+        self.nil.right = self.nil.left = self.nil.parent = self.nil
+        super(RedBlackTree, self).__init__([], self.nil)
+        self.r = self.nil
+        self.add_all(iterable)
+    # Function to push black node into the tree
+    def push_black(self, u):
+        u.colour -= 1
+        u.left.colour += 1
+        u.right.colour += 1
+    # Function to pull black node from the tree
+    def pull_black(self, u):
+        u.colour += 1
+        u.left.colour -= 1
+        u.right.colour -= 1
+    # Function to left flip the tree
+    def flip_left(self, u):
+        self.swap_colours(u, u.right)
+        self.rotate_left(u)
+    # Function to right flip the tree
+    def flip_right(self, u):
+        self.swap_colours(u, u.left)
+        self.rotate_right(u)
+    # Function to swap color of nodes 
+    def swap_colours(self, u, w):
+        (u.colour, w.colour) = (w.colour, u.colour)
+    # Function to add values
+    def add(self, x):
+        u = self._new_node(x)
+        u.colour = red
+        if self.add_node(u):
+            self.add_fixup(u)
+            return True
+        return False
+    # Function to fix up the tree after addition
+    def add_fixup(self, u):
+        while u.colour == red:
+            if u == self.r:
+                u.colour = black
+            w = u.parent
+            if w.left.colour == black:
+                self.flip_left(w)
+                u = w
+                w = u.parent
+            if w.colour == black:
+                return   # red-red edge is eliminated - done
+            g = w.parent
+            if g.right.colour == black:
+                self.flip_right(g)
+                return
+            self.push_black(g)
+            u = g
+    # Function to remove the node
+    def remove(self, x):
+        u = self._find_last(x)
+        if u == self.nil or u.x != x:
+            return False
+        w = u.right
+        if w == self.nil:
+            w = u
+            u = w.left
+        else:
+            while w.left != self.nil:
+                w = w.left
+            u.x = w.x
+            u = w.right
+        self.splice(w)
+        u.colour += w.colour
+        u.parent = w.parent
+        self.remove_fixup(u)
+        return True
+    # Function to fix the tree after removal
+    def remove_fixup(self, u):
+        while u.colour > black:
+            if u == self.r:
+                u.colour = black
+            elif u.parent.left.colour == red:
+                u = self.remove_fixup_case1(u)
+            elif u == u.parent.left:
+                u = self.remove_fixup_case2(u)
+            else:
+                u = self.remove_fixup_case3(u)
+        if u != self.r:   # restore left-leaning property, if needed
+            w = u.parent
+            if w.right.colour == red and w.left.colour == black:
+                self.flip_left(w)
+    # Remove case1 function     
+    def remove_fixup_case1(self, u):
+        self.flip_right(u.parent)
+        return u
+    # Remove case2 function 
+    def remove_fixup_case2(self, u):
+        w = u.parent
+        v = w.right
+        self.pull_black(w)
+        self.flip_left(w)
+        q = w.right
+        if q.colour == red:
+            self.rotate_left(w)
+            self.flip_right(v)
+            self.push_black(q)
+            if v.right.colour == red:
+                self.flip_left(v)
+            return q
+        else:
+            return v
+    # Remove case3 function 
+    def remove_fixup_case3(self, u):
+        w = u.parent
+        v = w.left
+        self.pull_black(w)
+        self.flip_right(w)  # w is now red
+        q = w.left
+        if q.colour == red:  # q-w is red-red
+            self.rotate_right(w)
+            self.flip_left(v)
+            self.push_black(q)
+            return q
+        else:
+            if v.left.colour == red:
+                self.push_black(v)
+                return v
+            else:  # ensure left-leaning
+                self.flip_left(v)
+                return w
+
+if __name__ == "__main__":
+    # Creating object
+    s = RedBlackTree()
+    print("Sorted sequence:")
+    # sorted sequence
+    for i in range(100):
+        s.add(i)
+    for x in s:
+        print(x, end=' ')
+    print()
+    s.clear()
+    print("Reverse Sorted sequence:")
+    # reverse sorted sequence
+    for i in range(99, -1, -1):
+        s.add(i)
+    for x in s:
+        print(x, end=' ')
+    print()
+    s.clear()
+    print("Pseudorandom sequence:")
+    # pseudorandom sequence
+    for i in range(1, 102):
+        s.add((73 * i) % 101)
+    for x in s:
+        print(x, end=' ')
+    print()

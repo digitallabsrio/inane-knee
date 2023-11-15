@@ -1,0 +1,26 @@
+class SkiplistSSet(BaseSet):
+    class Node(object):
+        """A node in a skip list"""
+        def __init__(self, x, h):
+            self.x = x
+            self.next = new_array(h+1)
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def remove(self, x):
+        removed = False
+        u = self.sentinel
+        r = self.h
+        while r >= 0:
+            while u.next[r] is not None and u.next[r].x < x:
+                u = u.next[r]
+            if u.next[r] is not None and u.next[r].x == x:
+                removed = True
+                u.next[r] = u.next[r].next[r]
+                if u == self.sentinel and u.next[r] is None:
+                    self.h -= 1 # height has decreased
+            r -= 1
+        if removed: self.n -= 1
+        return removed    

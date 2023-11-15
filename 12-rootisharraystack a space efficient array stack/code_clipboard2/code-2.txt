@@ -1,0 +1,18 @@
+class RootishArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def get(self, i):
+        if i < 0 or i > self.n - 1: raise IndexError()
+        b = self._i2b(i)
+        j = i - b*(b+1)/2
+        return self.blocks.get(b)[j]
+
+    def set(self, i, x):
+        if i < 0 or i > self.n - 1: raise IndexError()
+        b = self._i2b(i)
+        j = i - b*(b+1)/2
+        y = self.blocks.get(b)[j]
+        self.blocks.get(b)[j] = x
+        return y

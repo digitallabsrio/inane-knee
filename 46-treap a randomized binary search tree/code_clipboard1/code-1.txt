@@ -1,0 +1,46 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x
+        
+    def __init__(self, iterable=[], nil=None):
+        super(BinarySearchTree, self).__init__()
+        self._initialize()
+        self.nil = nil
+        self.add_all(iterable)
+    
+    def rotate_left(self, u):
+        w = u.right
+        w.parent = u.parent
+        if w.parent != self.nil:
+            if w.parent.left == u:
+                w.parent.left = w
+            else:
+                w.parent.right = w
+        u.right = w.left
+        if u.right != self.nil:
+            u.right.parent = u
+        u.parent = w
+        w.left = u
+        if u == self.r: 
+            self.r = w
+            self.r.parent = self.nil
+            
+    def rotate_right(self, u):
+        w = u.left
+        w.parent = u.parent
+        if w.parent != self.nil:
+            if w.parent.left == u:
+                w.parent.left = w
+            else:
+                w.parent.right = w
+        u.left = w.right
+        if u.left != self.nil:
+            u.left.parent = u
+        u.parent = w
+        w.right = u
+        if u == self.r:
+            self.r = w
+            self.r.parent = self.nil

@@ -1,0 +1,12 @@
+def heap_sort(a):
+    h = BinaryHeap()
+    h.a = a
+    h.n = len(a)
+    m = h.n//2
+    for i in range(m-1, -1, -1):
+        h.trickle_down(i)
+    while h.n > 1:
+        h.n -= 1
+        h.a[h.n], h.a[0] = h.a[0], h.a[h.n]
+        h.trickle_down(0)
+    a.reverse()

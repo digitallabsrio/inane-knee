@@ -1,0 +1,17 @@
+class DLList(BaseList):
+    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+            self.prev = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.n = 0
+        self.dummy = DLList.Node(None)
+        self.dummy.prev = self.dummy
+        self.dummy.next = self.dummy

@@ -1,0 +1,17 @@
+class LinearHashTable(BaseSet):
+    
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.initialize()
+        self.add_all(iterable)
+        
+    def add(self, x):
+        if self.find(x) is not None: return False
+        if 2*(self.q+1) > len(self.t): self._resize()
+        i = self._hash(x)
+        while self.t[i] is not None and self.t[i] != self.dl:
+            i = (i + 1) % len(self.t)
+        if self.t[i] is None: self.q += 1
+        self.n += 1
+        self.t[i] = x
+        return True

@@ -1,0 +1,28 @@
+class RedBlackTree(BinarySearchTree):
+    class Node(BinarySearchTree.Node):
+        def __init__(self, x):
+            super(RedBlackTree.Node, self).__init__(x)
+            self.colour = black
+  
+    def __init__(self, iterable=[]):
+        self.nil = RedBlackTree.Node(None)
+        self.nil.right = self.nil.left = self.nil.parent = self.nil
+        super(RedBlackTree, self).__init__([], self.nil)
+        self.r = self.nil
+        self.add_all(iterable)
+    
+    def remove_fixup_case2(self, u):
+        w = u.parent
+        v = w.right
+        self.pull_black(w)
+        self.flip_left(w)
+        q = w.right
+        if q.colour == red:
+            self.rotate_left(w)
+            self.flip_right(v)
+            self.push_black(q)
+            if v.right.colour == red:
+                self.flip_left(v)
+            return q
+        else:
+            return v

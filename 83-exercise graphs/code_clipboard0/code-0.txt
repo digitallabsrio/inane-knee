@@ -1,0 +1,86 @@
+from utils import new_boolean_matrix
+# MAin class
+class AdjacencyMatrix:
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+    # Initialize function   
+    def _initialize(self):
+        self.a = new_boolean_matrix(self.n, self.n)  
+    # Function to add edges
+    def add_edge(self, i, j):
+        self.a[i][j] = True
+    # Function to remove edges
+    def remove_edge(self, i, j):
+        self.a[i][j] = False
+    # Function to return edges
+    def has_edge(self, i, j):
+        return self.a[i][j]
+    # Function to return out edge
+    def out_edges(self, i):
+        edges = []
+        for j in range(self.n):
+            if self.a[i][j]:
+                edges.append(j)
+        return edges
+    # Function to return in edge
+    def in_edges(self, i):
+        edges = []
+        for j in range(self.n):
+            if self.a[j][i]:
+                edges.append(j)
+        return edges
+
+    def in_degree(self, i):
+        deg = 0
+        for j in range(self.n):
+            if self.a[j][i]:
+                deg += 1
+        return deg
+
+    def out_degree(self, i):
+        deg = 0
+        for j in range(self.n):
+            if self.a[i][j]:
+                deg += 1
+        return deg
+    # Function to return vertices
+    def n_vertices(self):
+        return self.n
+    # Function to find uni sink
+    def find_uni_sink_on(self):
+        # Write code here
+        pass
+    # Function to check sink
+    def check_sink(self, col):
+        # Write code here
+        pass
+    # Function to find uni sink helper
+    def find_uni_sink_on2(self):
+        # Write code here
+        pass
+
+if __name__ == "__main__":    
+    # Create a new adjacency matrix with 5 vertices
+    graph = AdjacencyMatrix(5)
+
+    # Add edges to the graph
+    graph.add_edge(0, 4)
+    graph.add_edge(1, 4)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 4)
+    graph.add_edge(4, 4)
+
+    # Find the Universal Sink in the graph, if exists
+    u = graph.find_uni_sink_on()
+    if u == -1:
+        print("Universal Sink not found.")
+    else:
+        print("Vertex", u, "is a Universal Sink in graph.")
+
+    graph.remove_edge(4, 4)
+    u = graph.find_uni_sink_on()
+    if u == -1:
+        print("Universal Sink not found.")
+    else:
+        print("Vertex", u, "is a Universal Sink in graph.")

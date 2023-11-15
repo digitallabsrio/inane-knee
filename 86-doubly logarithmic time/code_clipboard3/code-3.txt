@@ -1,0 +1,15 @@
+class YFastTrie(BaseSet):
+    def __init__(self):
+        super(YFastTrie, self).__init__()
+        self._initialize()
+ 
+    def add(self, x):
+        ix = int(x)
+        t = self.xft.find(Pair(ix))[1]
+        if t.add(x):
+            self.n += 1
+            if random.randrange(w) == 0:
+                t1 = t.split(x)
+                self.xft.add(Pair(ix, t1))
+            return True
+        return False

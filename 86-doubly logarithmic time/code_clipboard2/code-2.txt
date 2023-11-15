@@ -1,0 +1,7 @@
+class YFastTrie(BaseSet):
+    def __init__(self):
+        super(YFastTrie, self).__init__()
+        self._initialize()
+    
+    def find(self, x):
+        return self.xft.find(Pair(int(x)))[1].find(x)

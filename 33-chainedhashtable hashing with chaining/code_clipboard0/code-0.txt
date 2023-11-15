@@ -1,0 +1,10 @@
+class ChainedHashTable(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.d = 1
+        self.t = self._alloc_table((1<<self.d))
+        self.z = self._random_odd_int()
+        self.n = 0

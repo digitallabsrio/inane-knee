@@ -1,0 +1,18 @@
+class LinearHashTable(BaseSet):
+    
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.initialize()
+        self.add_all(iterable)
+        
+    def remove(self, x):
+        i = self._hash(x)
+        while self.t[i] is not None:
+            y = self.t[i]
+            if y != self.dl and x == y:
+                self.t[i] = self.dl
+                self.n -= 1
+                if 8*self.n < len(self.t): resize()
+                return y
+            i = (i + 1) % len(self.t)
+        return None

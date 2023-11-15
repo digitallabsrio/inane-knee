@@ -1,0 +1,24 @@
+class ScapegoatTree(BinarySearchTree):
+    def __init__(self):
+        super(ScapegoatTree, self).__init__()
+        self._initialize()
+        
+    def _initialize(self):
+        self.n = 0
+        self.q = 0
+        
+    def rebuild(self, u):
+        ns = self._size(u)
+        p = u.parent
+        a = new_array(ns)
+        self.pack_into_array(u, a, 0)
+        if p == self.nil:
+            self.r = self.build_balanced(a, 0, ns)
+            self.r.parent = nil
+        elif p.right == u:
+            p.right = self.build_balanced(a, 0, ns)
+            p.right.parent = p
+        else:
+            p.left = self.build_balanced(a, 0, ns)
+            p.left.parent = p
+        

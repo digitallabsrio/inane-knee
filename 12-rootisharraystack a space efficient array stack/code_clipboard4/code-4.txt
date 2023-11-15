@@ -1,0 +1,7 @@
+class RootishArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def grow(self):
+        self.blocks.append(new_array(self.blocks.size()+1))

@@ -1,0 +1,2 @@
+def idealHash(x):
+  return tab[x.hash_code() >> w − d]

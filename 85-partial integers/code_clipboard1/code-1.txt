@@ -1,0 +1,48 @@
+class BinaryTrie(BaseSet):
+    class Node(object):
+        def __init__(self):
+            self.child  = new_array(2)
+            self.jump = None
+            self.parent = None
+            self.x = None
+
+    def add(self, x):
+        ix = int(x)
+        u = self.r
+        # 1 - search for ix until falling out of the tree
+        i = 0
+        while i < w:
+            c = (ix >> w-i-1) & 1
+            if u.child[c] is None: break
+            u = u.child[c]
+            i += 1
+        if i == w: return False  # already contains x - abort
+        pred = [u.jump.prev, u.jump][c]
+        u.jump = None  # u will soon have two children
+        
+        # 2 - add the path to ix
+        while i < w:
+            c = (ix >> w-i-1) & 1
+            u.child[c] = self._new_node()
+            u.child[c].parent = u
+            u = u.child[c]
+            i += 1
+        u.x = x
+            
+        # 3 - add u to the linked list
+        u.prev = pred
+        u.next = pred.next
+        u.prev.next = u
+        u.next.prev = u
+        
+        # 4 - walk back up, updating jump pointers
+        v = u.parent
+        while v is not None:
+            if (v.left is None  
+                    and (v.jump is None or int(v.jump.x) > ix)) \
+                or (v.right is None
+                    and (v.jump is None or int(v.jump.x) < ix)):
+                v.jump = u
+            v = v.parent
+        self.n += 1
+        return True    

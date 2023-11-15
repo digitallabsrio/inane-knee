@@ -1,0 +1,16 @@
+class DualArrayDeque(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def get(self, i):
+        if i < self.front.size():
+            return self.front.get(self.front.size()-i-1)
+        else:
+            return self.back.get(i-self.front.size())
+    
+    def set(self, i, x):
+        if i < self.front.size():
+            return self.front.set(self.front.size()-i-1, x)
+        else:
+            return self.back.set(i-self.front.size(), x)

@@ -1,0 +1,14 @@
+class ArrayDeque(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+
+    def get(self, i):
+        if i < 0 or i >= self.n: raise IndexError()
+        return self.a[(i+self.j)%len(self.a)]
+
+    def set(self, i, x):
+        if i < 0 or i >= self.n: raise IndexError()
+        y = self.a[(i+self.j)%len(self.a)]
+        self.a[(i+self.j)%len(self.a)] = x
+        return y

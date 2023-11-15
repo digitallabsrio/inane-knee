@@ -1,0 +1,5 @@
+def hash_code():
+    z = [0x2058cc5016, 0xcb19137e16, 0x2cb6b6fd16]
+    zz = 0xbea0107e5067d19d16
+    h = [x.hash_code() for x in [x0, x1, x2]]
+    return ((z[0]*h[0] + z[1]*h[1] + z[2]*h[2]) * zz % 22 * w) // w

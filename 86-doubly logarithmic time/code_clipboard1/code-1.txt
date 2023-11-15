@@ -1,0 +1,151 @@
+from base import BaseSet
+from binarytrie import BinaryTrie
+from linearhashtable import LinearHashTable
+from utils import new_array, w
+# XFastTrie class
+class XFastTrie(BinaryTrie):
+    class Node(BinaryTrie.Node):
+        def __init__(self):
+            super(XFastTrie.Node, self).__init__()
+            self.prefix = 0
+
+        def __eq__(self, other):
+            if isinstance(other, XFastTrie.Node):
+                return self.prefix == other.prefix
+            return False
+
+        def __hash__(self):
+            return hash(self.prefix)
+    # Creating new node 
+    def _new_node(self):
+        return XFastTrie.Node()
+    # Initialize function 
+    def __init__(self):
+        super(XFastTrie, self).__init__()
+        self.nil = self._new_node()
+        self.t = new_array(w+1)
+        for i in range(w+1):
+            self.t[i] = LinearHashTable()
+        self.t[0].add(self.r)
+    # Function to add value
+    def add(self, x):
+        if super(XFastTrie, self).add(x):
+            ix = int(x)
+            u = self.r.child[(ix >> w-1) & 1]
+            for i in range(1, w+1):
+                u.prefix = ix >> w-i
+                self.t[i].add(u)
+                if i < w:
+                    c = (ix >> w-i-1) & 1
+                u = u.child[c]
+            return True
+        return False
+    # Function to find value
+    def find(self, x):
+        ix = int(x)
+        l, h = 0, w+1
+        u = self.r
+        q = self._new_node()
+        while h-l > 1:
+            i = int((l+h)/2)  # Convert w-i to int
+            q.prefix = ix >> int(w-i)  # Convert w-i to int
+            v = self.t[i].find(q)
+            if v is None:
+                h = i
+            else:
+                u = v
+                l = i
+        if l == w:
+            return u.x
+        c = ix >> (w-l-1) & 1
+        pred = [u.jump.prev, u.jump][c]
+        if pred.next is None:
+            return None
+        return pred.next.x
+    # Function to find node
+    def find_node(self, x):
+        ix = int(x)
+        l, h = 0, w+1
+        u = self.r
+        q = self._new_node()
+        while h-l > 1:
+            i = (l+h)/2
+            q.prefix = ix >> w-i
+            v = self.t[i].find(q)
+            if v is None:
+                h = i
+            else:
+                u = v
+                l = i
+        if l == w: return u
+        c = ix >> (w-l-1) & 1
+        pred = [u.jump.prev, u.jump][c]
+        if pred.next is None: return None
+        return pred.next
+    # Function to remove value
+    def remove(self, x):
+        # 1 - fine leaf, u, containing x
+        ix = int(x)
+        i = 0
+        u = self.r
+        while i < w:
+            c = ix >> (w-i-1) & 1
+            u = u.child[c]
+            if u is None: return False
+            i += 1
+        
+        # 2 - remove u from linked list
+        pred = u.prev
+        succ = u.next
+        pred.next = succ
+        succ.prev = pred
+        u.next = u.prev = None
+        v = u
+        
+        # 3 - delete nodes on path to u
+        while v is not self.r and v.left is None and v.right is None:
+            if v is v.parent.left:
+                v.parent.left = None
+            else:
+                v.parent.right = None
+            self.t[i].remove(v)
+            i -= 1
+            v = v.parent
+        
+        # 4 - update jump pointers
+        v.jump = [pred, succ][v.left is None]
+        v = v.parent
+        while v is not None:
+            if v.jump is u:
+                v.jump = [pred, succ][v.left is None]
+            v = v.parent
+        self.n -= 1
+        return True
+
+if __name__ == "__main__":
+    xfast_trie = XFastTrie()
+
+    xfast_trie.add(5)
+    xfast_trie.add(3)
+    xfast_trie.add(8)
+    xfast_trie.add(7)
+    xfast_trie.add(2)
+    xfast_trie.add(1)
+
+    print("XFast Trie after adding 5, 3, 8, 7, 2, and 1:")
+    print(xfast_trie)
+
+    print("Find 5:", xfast_trie.find(5))
+    print("Find 2:", xfast_trie.find(2))
+    print("Find 10:", xfast_trie.find(10))
+
+    xfast_trie.remove(5)
+    xfast_trie.remove(7)
+    xfast_trie.remove(1)
+
+    print("XFast Trie after removing 5, 7, and 1:")
+    print(xfast_trie)
+
+    print("Find 5:", xfast_trie.find(5))
+    print("Find 7:", xfast_trie.find(7))
+    print("Find 1:", xfast_trie.find(1))

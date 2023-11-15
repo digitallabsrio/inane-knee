@@ -1,0 +1,43 @@
+class BinaryTrie(BaseSet):
+    class Node(object):
+        def __init__(self):
+            self.child  = new_array(2)
+            self.jump = None
+            self.parent = None
+            self.x = None
+
+    def remove(self, x):
+        ix = int(x)
+        u = self.r
+        # 1 - find leaf, u, that contains x
+        i = 0
+        while i < w:
+            c = (ix >> w-i-1) & 1
+            if u.child[c] is None: return False
+            u = u.child[c]
+            i += 1
+        
+        # 2 - remove u from linked list
+        u.prev.next = u.next
+        u.next.prev = u.prev
+        v = u
+        
+        # 3 - delete nodes on path to u
+        for i in range(w-1, -1, -1):
+            c = (ix >> w-i-1) & 1
+            v = v.parent
+            v.child[c] = None
+            if v.child[1-c] is not None: break
+            
+        # 4 - update jump pointers
+        pred = u.prev
+        succ = u.next
+        v.jump = [pred, succ][v.left is None]
+        v = v.parent
+        while v is not None:
+            if v.jump is u:
+                v.jump = [pred, succ][v.left is None]
+            v = v.parent
+            
+        self.n -= 1
+        return True

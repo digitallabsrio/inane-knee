@@ -1,0 +1,24 @@
+class SEList(BaseList):
+    class BDeque(ArrayDeque):
+        def __init__(self, b):
+            super(SEList.BDeque, self).__init__()
+            self.a = new_array(b+1)
+        
+        def _resize(self):
+            pass
+        
+    class Node(object):
+        def __init__(self, b):
+            self.d = SEList.BDeque(b)
+            self.prev = None
+            self.next = None
+            
+    def __init__(self, b):
+        super(SEList, self).__init__()
+        self.b = b
+        self._initialize()
+
+    def _initialize(self):
+        self.dummy = self._new_node()
+        self.dummy.next = self.dummy.prev = self.dummy
+        self.n = 0

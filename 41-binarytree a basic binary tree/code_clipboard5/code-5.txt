@@ -1,0 +1,15 @@
+class BinaryTree(object):
+    class Node(object):
+        def __init__(self):
+            self.left = self.right = self.parent = None
+
+    def __init__(self):
+        super(BinaryTree, self).__init__()
+        self.nil = None
+        self.r = None
+        self.initialize()
+        
+    def traverse(self, u):
+        if u == self.nil: return
+        self.traverse(u.left)
+        self.traverse(u.right)

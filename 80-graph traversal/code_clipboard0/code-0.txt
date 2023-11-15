@@ -1,0 +1,11 @@
+def bfs(g, r):
+    seen = new_boolean_array(n)
+    q = SLList()
+    q.add(r)
+    seen[r] = True
+    while q.size() > 0:
+        i = q.remove()
+        for j in g.out_edges(i):
+            if seen[j] is False:
+                q.add(j)
+                seen[j] = True

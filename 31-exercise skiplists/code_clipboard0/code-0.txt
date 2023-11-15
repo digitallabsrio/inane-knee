@@ -1,0 +1,114 @@
+import random
+from utils import new_array, numpy
+from base import BaseSet
+
+class SkiplistSSet(BaseSet):
+    # Node class
+    class Node(object):
+        def __init__(self, x, h):
+            self.x = x
+            self.next = new_array(h+1)
+        # Function to return height
+        def height(self):
+            return len(self.next) - 1
+    # Function to create new node
+    def _new_node(self, x, h):
+        return SkiplistSSet.Node(x, h)
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+    # Initialize function    
+    def _initialize(self):
+        self.h = 0
+        self.n = 0
+        self.sentinel = self._new_node(None, 32)
+        self.stack = new_array(self.sentinel.height()+1)
+    # Function to reset the skiplist    
+    def clear(self):
+        self._initialize()
+    # Function to find pred node
+    def find_pred_node(self, x):
+        pass
+    # Function to find node using find_pred_node()
+    def find(self, x):
+        #u = self.find_pred_node(x)
+        #if (u.next[0] == None or u.next[0].x != x):
+        #    return None;
+        #else:
+        #    return u.next[0].x;
+        pass
+    # Function to add values
+    def add(self, x):
+        u = self.sentinel
+        r = self.h
+        while r >= 0:
+            while u.next[r] is not None and u.next[r].x < x:
+                u = u.next[r]
+            if u.next[r] is not None and u.next[r].x == x: return False
+            self.stack[r] = u
+            r -= 1
+        w = self._new_node(x, self.pick_height())
+        while self.h < w.height():
+            self.h += 1
+            self.stack[self.h] = self.sentinel   # height increased
+        for i in range(len(w.next)):
+            w.next[i] = self.stack[i].next[i]
+            self.stack[i].next[i] = w
+        self.n += 1
+        return True
+    # Function to remove values       
+    def remove(self, x):
+        removed = False
+        u = self.sentinel
+        r = self.h
+        while r >= 0:
+            while u.next[r] is not None and u.next[r].x < x:
+                u = u.next[r]
+            if u.next[r] is not None and u.next[r].x == x:
+                removed = True
+                u.next[r] = u.next[r].next[r]
+                if u == self.sentinel and u.next[r] is None:
+                    self.h -= 1 # height has decreased
+            r -= 1
+        if removed: self.n -= 1
+        return removed    
+    # Iterator function
+    def __iter__(self):
+        u = self.sentinel.next[0]
+        while u is not None:
+            yield u.x
+            u = u.next[0]
+    # Function to return length using number of nodes              
+    def __len__(self):
+        return self.n
+    # Function to determine height
+    def pick_height(self):
+        z = random.getrandbits(32)
+        k = 0
+        while z & 1:
+            k += 1
+            z = z // 2
+        return k
+
+if __name__ == "__main__":
+    # initialize varibales
+    n = 1000
+    # Creating object
+    sl = SkiplistSSet()
+    print("Adding", n, "elements")
+    i = 0
+    while i < n // 4:
+        sl.add(i % 100 + 900)
+        i += 1
+    while i < n // 2:
+        sl.add(i % 50)
+        i += 1
+    while i < n:
+        sl.add(i % 20)
+        i += 1
+    print("Searching")
+    x = sl.find(10)
+    y = sl.find(20)
+    z = sl.find(3000)
+    print("Found:", x, ",", y, ",", z)

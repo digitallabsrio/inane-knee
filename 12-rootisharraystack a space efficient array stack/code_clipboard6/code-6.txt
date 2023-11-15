@@ -1,0 +1,14 @@
+class RootishArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.n = 0
+        self.blocks = ArrayStack()
+
+    def shrink(self):
+        r = self.blocks.size()
+        while r > 0 and (r-2)*(r-1)/2 >= self.n:
+            self.blocks.remove(self.blocks.size()-1)
+            r -= 1

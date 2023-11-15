@@ -1,0 +1,16 @@
+class BTree(BaseSet):
+    class Node(object):
+        def __init__(self, btree):
+            self.btree = btree
+            self.keys = new_array(self.btree.b)
+            self.children = new_int_array(self.btree.b+1, -1)
+            self.id = self.btree.bs.place_block(self)
+    def __init__(self, b):
+        self._initialize(b)
+        
+    def _initialize(self, b):
+        self.b = b | 1
+        self.B = self.b // 2
+        self.bs = BlockStore()
+        self.ri = self.new_node().id
+        self.n = 0

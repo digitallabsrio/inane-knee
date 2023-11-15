@@ -1,0 +1,11 @@
+class DualArrayDeque(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def add(self, i, x):
+        if i < self.front.size():
+            self.front.add(self.front.size()-i, x)
+        else:
+            self.back.add(i-self.front.size(), x)
+        self._balance()

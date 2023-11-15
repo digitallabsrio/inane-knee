@@ -1,0 +1,15 @@
+class DLList(BaseList):
+    
+    class Node(object):
+        def __init__(self, x):
+            self.x = x
+            self.next = None
+            self.prev = None
+
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def add(self, i, x):
+        if i < 0 or i > self.n:    raise IndexError()
+        self.add_before(self.get_node(i), x)

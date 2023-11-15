@@ -1,0 +1,15 @@
+class LinearHashTable(BaseSet):
+    
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.initialize()
+        self.add_all(iterable)
+        
+    def _initialize(self):
+        self.dl = object()
+        
+    def initialize(self):
+        self.d = 1
+        self.t = new_array((1<<self.d))
+        self.q = 0
+        self.n = 0

@@ -1,0 +1,26 @@
+class BinarySearchTree(BinaryTree,BaseSet):
+    """Base classs for all our binary search trees"""
+    
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(BinarySearchTree.Node, self).__init__()
+            self.x = x
+
+    def __init__(self, iterable=[], nil=None):
+        super(BinarySearchTree, self).__init__()
+        self._initialize()
+        self.nil = nil
+        self.add_all(iterable)
+        
+    def _find_last(self, x):
+        w = self.r
+        prev = self.nil
+        while w is not self.nil: 
+            prev = w
+            if (x < w.x):
+                w = w.left
+            elif (x > w.x):
+                w = w.right
+            else:
+                return w
+        return prev 

@@ -1,0 +1,82 @@
+import math
+from math import ceil, sqrt
+from utils import new_array
+from arraystack import ArrayStack
+from base import BaseList
+
+class RootishArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+    # Initialize function    
+    def _initialize(self):
+        self.n = 0
+        self.blocks = ArrayStack()
+    # Quadratic equation solver
+    def _i2b(self, i):
+        return int(math.ceil((-3.0 + math.sqrt(9 + 8*i)) / 2.0))
+    # Function to grow
+    def grow(self):
+        self.blocks.append(new_array(self.blocks.size()+1))
+    # Function to shrink
+    def shrink(self):
+        r = self.blocks.size()
+        while r > 0 and (r-2)*(r-1)/2 >= self.n:
+            self.blocks.remove(self.blocks.size()-1)
+            r -= 1
+    # Function to get values
+    def get(self, i):
+        if i < 0 or i > self.n - 1: raise IndexError()
+        b = self._i2b(i)
+        j = int(i - b*(b+1)/2)
+        return self.blocks.get(b)[j]
+    # Function to set values
+    def set(self, i, x):
+        if i < 0 or i > self.n - 1: raise IndexError()
+        b = self._i2b(i)
+        j = int(i - b*(b+1)/2)
+        y = self.blocks.get(b)[j]
+        self.blocks.get(b)[j] = x
+        return y
+    # Function to add values
+    def add(self, i, x):
+        if i < 0 or i > self.n: raise IndexError()
+        r = self.blocks.size()
+        if r*(r+1)/2 < self.n + 1: self.grow()
+        self.n += 1
+        for j in range(self.n-1, i, -1):
+            self.set(j, self.get(j-1))
+        self.set(i, x)
+    # Function to remove values
+    def remove(self, i):
+        if i < 0 or i > self.n - 1: raise IndexError()
+        x = self.get(i)
+        for j in range(i, self.n-1):
+            self.set(j, self.get(j+1))
+        self.n -= 1
+        r = self.blocks.size()
+        if (r-2)*(r-1)/2 >= self.n: self.shrink()
+        return x
+    # Function to clear the array
+    def clear(self):
+        self.blocks.clear()
+        self.n = 0
+
+if __name__ == "__main__":
+    # Creating object
+    stack = RootishArrayStack()
+    # Adding values
+    stack.add(0, 1);
+    stack.add(1, 2);
+    stack.add(2, 3);
+    print("Stack after adding values", stack)
+    # Removing values
+    stack.remove(1);
+    print("Stack after removing values", stack)
+    # Adding values again
+    stack.add(1, 2);
+    stack.add(3, 4);
+    print("Stack after adding values again", stack)
+    # Clearing
+    stack.clear()
+    print("Stack after clearing values", stack)

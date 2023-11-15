@@ -1,0 +1,86 @@
+import random
+import time
+from base import BaseSet
+from binarytree import BinaryTree
+# Generating random bits
+def random_bit():
+    return random.getrandbits(1) == 0
+# Main class
+class MeldableHeap(BinaryTree, BaseSet):
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(MeldableHeap.Node, self).__init__()
+            self.x = x
+    # Initialize function     
+    def __init__(self, iterable=[]):
+        super(MeldableHeap, self).__init__()
+        self.n = 0
+    # Creating new node 
+    def _new_node(self, x):
+        return MeldableHeap.Node(x)
+    # Find minimum node
+    def find_min(self):
+        if n == 0: raise IndexError('find_min on empty queue')
+        return self.r.x
+    # Function to add value
+    def add(self, x):
+        u = self._new_node(x)
+        self.r = self.merge(u, self.r)
+        self.r.parent = self.nil
+        self.n += 1
+        return True
+    # Function to remove value
+    def remove(self):
+        if self.n == 0: raise IndexError('remove from empty heap')
+        x = self.r.x
+        self.r = self.merge(self.r.left, self.r.right)
+        if self.r != self.nil: self.r.parent = self.nil
+        self.n -= 1
+        return x
+    # Function to merge heaps
+    def merge(self, h1, h2):
+        if h1 == self.nil: return h2
+        if h2 == self.nil: return h1
+        if h2.x < h1.x: (h1, h2) = (h2, h1)
+        if random_bit():
+            h1.left = self.merge(h1.left, h2)
+            h1.left.parent = h1
+        else:
+            h1.right = self.merge(h1.right, h2)
+            h1.right.parent = h1
+        return h1
+    # Iterator function
+    def __iter__(self):
+        u = self.first_node()
+        while u != self.nil:
+            yield u.x
+            u = self.next_node(u)
+# Speed Test function
+def speedTests(q):
+    r = random.Random()
+    n = 1000
+    start, stop = None, None
+    elapsed = 0
+    print(f"performing {n} adds...")
+    start = time.monotonic_ns()
+    for i in range(n):
+        q.add(r.randint(0, 1000))
+    stop = time.monotonic_ns()
+    elapsed = (stop - start) / 1e9
+    print(f"({elapsed}s [{int(n/elapsed)} ops/sec])")
+    
+    n *= 10
+    print(f"performing {n} add/removes...")
+    start = time.monotonic_ns()
+    for i in range(n):
+        if r.random() < 0.5:
+            q.add(r.randint(0, 1000000))
+        else:
+            q.remove()
+    stop = time.monotonic_ns()
+    elapsed = (stop - start) / 1e9
+    print(f"({elapsed}s [{int(n/elapsed)} ops/sec])")
+
+if __name__ == "__main__":
+    print("==== MeldableHeap ====")
+    speedTests(MeldableHeap())

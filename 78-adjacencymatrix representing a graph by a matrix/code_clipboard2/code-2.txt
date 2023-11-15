@@ -1,0 +1,11 @@
+def out_edges(self, i):
+    out = list()
+    for j in range(self.n):
+        if self.a[i][j]: out.append(j)
+    return out
+        
+def in_edges(self, i):
+    out = list()
+    for j in range(self.n):
+        if self.a[j][i]: out.append(j)
+    return out

@@ -1,0 +1,18 @@
+class BinaryTree(object):
+    class Node(object):
+        def __init__(self):
+            self.left = self.right = self.parent = None
+
+    def __init__(self):
+        super(BinaryTree, self).__init__()
+        self.nil = None
+        self.r = None
+        self.initialize()
+            
+    def bf_traverse(self):
+        q = ArrayQueue()
+        if self.r != self.nil: q.add(self.r)
+        while q.size() > 0:
+            u = q.remove()
+            if u.left != self.nil: q.add(u.left)
+            if u.right != self.nil: q.add(u.right)

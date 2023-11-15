@@ -1,0 +1,17 @@
+class ArrayDeque(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+
+    def add(self, i, x): 
+        if i < 0 or i > self.n: raise IndexError()
+        if self.n == len(self.a): self._resize()
+        if i < self.n/2:
+            self.j = (self.j-1) % len(self.a)
+            for k in range(i):
+                self.a[(self.j+k)%len(self.a)] = self.a[(self.j+k+1)%len(self.a)]
+        else:
+            for k in range(self.n, i, -1):
+                self.a[(self.j+k)%len(self.a)] = self.a[(self.j+k-1)%len(self.a)]
+        self.a[(self.j+i)%len(self.a)] = x
+        self.n += 1

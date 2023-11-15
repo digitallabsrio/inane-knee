@@ -1,0 +1,10 @@
+class ArrayQueue(BaseSet):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+        
+    def add(self, x):
+        if self.n + 1 > len(self.a): self._resize()
+        self.a[(self.j+self.n) % len(self.a)] = x
+        self.n += 1
+        return True

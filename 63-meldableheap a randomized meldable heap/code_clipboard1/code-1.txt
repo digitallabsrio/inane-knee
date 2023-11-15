@@ -1,0 +1,16 @@
+class MeldableHeap(BinaryTree, BaseSet):
+    class Node(BinaryTree.Node):
+        def __init__(self, x):
+            super(MeldableHeap.Node, self).__init__()
+            self.x = x
+            
+    def __init__(self, iterable=[]):
+        super(MeldableHeap, self).__init__()
+        self.n = 0
+
+    def add(self, x):
+        u = self._new_node(x)
+        self.r = self.merge(u, self.r)
+        self.r.parent = self.nil
+        self.n += 1
+        return True

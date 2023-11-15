@@ -1,0 +1,8 @@
+class ArrayStack(BaseList):
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable) 
+    def _resize(self):
+        b = new_array(max(1, 2*self.n))
+        b[0:self.n] = self.a[0:self.n]
+        self.a = b

@@ -1,0 +1,15 @@
+def merge(a0, a1, a):
+    i0 = i1 = 0
+    for i in range(len(a)):
+        if i0 == len(a0):
+            a[i] = a1[i1]
+            i1 += 1
+        elif i1 == len(a1):
+            a[i] = a0[i0]
+            i0 += 1
+        elif a0[i0] <= a1[i1]:
+            a[i] = a0[i0]
+            i0 += 1
+        else:
+            a[i] = a1[i1]
+            i1 += 1

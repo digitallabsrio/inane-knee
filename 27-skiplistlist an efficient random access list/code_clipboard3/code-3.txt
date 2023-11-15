@@ -1,0 +1,37 @@
+class SkiplistList(BaseList):
+    class Node(object):
+        """A node in a skip list"""
+        def __init__(self, x, h):
+            self.x = x
+            self.next = new_array(h+1)
+            self.length = numpy.ones(h+1, dtype=int)
+        
+    def __init__(self, iterable=[]):
+        self._initialize()
+        self.add_all(iterable)
+
+    def add(self, i, x):
+        if i < 0 or i > self.n: raise IndexError()
+        w = self._new_node(x, self.pick_height())
+        if w.height() > self.h:
+            self.h = w.height()
+        self._add(i, w)
+    
+    def _add(self, i, w):
+        u = self.sentinel
+        k = w.height()
+        r = self.h
+        j = -1
+        while r >= 0:
+            while u.next[r] is not None and j+u.length[r] < i:
+                j += u.length[r]
+                u = u.next[r]
+            u.length[r] += 1
+            if r <= k:
+                w.next[r] = u.next[r]
+                u.next[r] = w
+                w.length[r] = u.length[r] - (i-j)
+                u.length[r] = i - j
+            r -= 1
+        self.n += 1
+        return u

@@ -1,0 +1,70 @@
+from arraystack import ArrayStack
+from utils import new_array
+
+# Setting length
+length = len
+# Main class
+class AdjacencyLists(object):
+    def __init__(self, n):
+        self.n = n
+        self._initialize()
+    # Initialize function
+    def _initialize(self):
+        self.adj = new_array(self.n)
+        for i in range(self.n):
+            self.adj[i] = ArrayStack()
+    # Fucntion to add edge  
+    def add_edge(self, i, j):
+        self.adj[i].append(j)
+    # Function to remove edge
+    def remove_edge(self, i, j):
+        for k in range(length(self.adj[i])):
+            if self.adj[i].get(k) == j:
+                self.adj[i].remove(k)
+                return
+    # Fucntion to return edge     
+    def has_edge(self, i, j):
+        for k in self.adj[i]:
+            if k == j:
+                return True
+        return False
+    # Function to return out edge
+    def out_edges(self, i):
+        return self.adj[i]
+
+    def out_degree(self, i):
+        return len(self.adj[i])
+    
+    # Function to return in edge
+    def in_edges(self, i):
+        out = ArrayStack()
+        for j in range(self.n):
+            if self.has_edge(j, i): out.append(j)
+        return out
+        
+    def in_degree(self, i):
+        deg = 0
+        for j in range(self.n):
+            if self.has_edge(j, i): deg += 1
+        return deg
+# Mesh function
+def mesh(n):
+    g = AdjacencyLists(n * n)
+    for k in range(n * n):
+        if k % n > 0:
+            g.add_edge(k, k - 1)
+        if k >= n:
+            g.add_edge(k, k - n)
+        if k % n != n - 1:
+            g.add_edge(k, k + 1)
+        if k < n * (n - 1):
+            g.add_edge(k, k + n)
+    return g
+
+if __name__ == "__main__":
+    # Calling mesh
+    g = mesh(4)
+    dfs(g, 0)
+    dfs2(g, 0)
+    # Caliing main function of AdjacentMatrix
+    AdjacencyMatrix.main()
